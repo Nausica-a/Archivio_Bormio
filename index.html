@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Archivio Valtellina Map</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<!-- Modal viewer -->
+<div id="modal" role="dialog" aria-hidden="true">
+    <button class="close-btn" id="modal-close">×</button>
+    <div class="card">
+        <div class="img-wrap">
+            <img id="modal-img" alt="" src="">
+        </div>
+        <div class="meta">
+            <div class="row"><strong>Anno:</strong> <span id="meta-year"></span></div>
+            <div class="row"><strong>Categoria:</strong> <span id="meta-cat"></span></div>
+            <div class="row"><strong>Tags:</strong> <span id="meta-tags"></span></div>
+            <div class="row"><strong>Descrizione:</strong> <div id="meta-desc"></div></div>
+        </div>
+    </div>
+</div>
+
+<div id="controls">
+    <div style="margin-top:6px; display:flex; gap:6px; align-items:center;">
+        <button id="resetBtn">Somiglianza</button>
+        <button id="categoryBtn">Tematiche</button>
+        <button id="archiveBtn">Archivio</button>
+    </div>
+    <div id="filters">
+        <label style="font-size:13px; color:#fff; opacity:0.95; margin-right:6px;">Filtri:</label>
+        <div style="display:flex; align-items:center; gap:8px;">
+            <button id="filterInsta" class="filter-btn">Instagram</button>
+            <button id="filterArch" class="filter-btn">Archivi storici</button>
+            <button id="clearFilter" class="filter-clear hidden" aria-label="Clear filter">×</button>
+        </div>
+    </div>
+</div>
+
+
+    <!-- External JS files -->
+    <script src="cubicBezier.js"></script>
+    <script src="openModal.js"></script>
+    <script src="closeModal.js"></script>
+    <script src="getLabel.js"></script>
+    <script src="getArchiveLabel.js"></script>
+    <script src="computeCategoryPositions.js"></script>
+    <script src="computeArchivePositions.js"></script>
+    <script src="animateToLayout.js"></script>
+    <script src="draw.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

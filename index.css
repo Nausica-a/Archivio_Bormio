@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    background: #cacaca;
+    overflow: hidden;
+}
+canvas {
+    display: block;
+}
+/* Controls panel */
+#controls {
+        position: fixed;
+        left: 12px;
+        top: 12px;
+        background: rgba(194, 194, 194, 0.6);
+        color: #fff;
+        padding: 8px 10px;
+        font-family: sans-serif;
+        font-size: 13px;
+        border-radius: 6px;
+        z-index: 10;
+}
+#controls input[type=range] { width: 140px; }
+#controls label { margin-right: 6px; }
+#zoomLevel { font-weight: 600; }
+
+/* Filters UI */
+#filters { margin-top:8px; display:flex; gap:6px; align-items:center; }
+.filter-btn { background: rgba(0,0,0,0.12); color: #fff; border: 0; padding: 6px 8px; border-radius:4px; cursor:pointer; font-size:13px; }
+.filter-btn.active { background: rgba(0,0,0,0.4); }
+.filter-clear { background: transparent; color: #fff; border: 0; padding: 0 6px; font-size:14px; cursor: pointer; opacity:0.85 }
+.filter-clear.hidden { visibility: hidden; }
+
+/* Modal (image viewer) */
+#modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.75);
+    z-index: 1000;
+}
+#modal .card {
+    background: #111;
+    color: #fff;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: 900px;
+    border-radius: 8px;
+    overflow: visible;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+}
+#modal .img-wrap { text-align: center; padding: 12px; max-height: 70vh; overflow: hidden; }
+#modal img { max-width: 100%; height: auto; display: block; margin: 0 auto; max-height: 70vh; }
+#modal .meta { padding: 12px 16px; font-family: sans-serif; font-size: 14px; line-height:1.4; }
+#modal .meta .row { margin-bottom: 8px; }
+#modal .close-btn { position: absolute; right: 18px; top: 14px; background: transparent; border: none; color: #fff; font-size: 22px; cursor: pointer; }
