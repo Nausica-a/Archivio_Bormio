@@ -1,11 +1,18 @@
 function draw() {
+    if (typeof positionContemporaryButton === 'function') {
+        positionContemporaryButton();
+    }
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     const margin = 100;
     const zoomParallax = isZooming ? (transform.k - 1) * parallaxStrengthZoom : 0;
+    const dominantBlendValue = (layoutMode === 'umap' && typeof getDominantBlendValue === 'function')
+        ? getDominantBlendValue()
+        : 0;
 
     images.forEach(d => {
         if (!d.img.complete) return;
+        if ((d.img.naturalWidth || 0) <= 0 || (d.img.naturalHeight || 0) <= 0) return;
 
         let sx = transform.x + width/2 + transform.k * d.x;
         let sy = transform.y + height/2 + transform.k * d.y;
@@ -22,38 +29,41 @@ function draw() {
             sy += panDelta.y * depth * panParallaxStrength * (1 / Math.max(0.5, transform.k));
         }
 
-        // compute image size based on zoom level around baseSize==18
-        // stronger growth when zooming in, stronger shrink when zooming out
-        const k = Math.max(0.3, Math.min(12, transform.k));
-        let scaleFactor;
-        // soften the effect: milder growth/shrink around baseSize
-        if (k >= 1) scaleFactor = Math.pow(k, 1.08);
-        else scaleFactor = Math.pow(k, 1.4);
-        let size = Math.max(6, Math.min(110, Math.round(baseSize * scaleFactor)));
-        const iw = d.img.naturalWidth || d.img.width || 1;
-        const ih = d.img.naturalHeight || d.img.height || 1;
-        const aspect = iw / ih;
-        let w, h;
-        if (aspect >= 1) {
-            w = size;
-            h = Math.max(1, Math.round(size / aspect));
-        } else {
-            w = Math.max(1, Math.round(size * aspect));
-            h = size;
-        }
+        const { w, h } = getRenderedThumbnailSize(d);
 
         if (sx + w/2 < -margin || sx - w/2 > width + margin || sy + h/2 < -margin || sy - h/2 > height + margin) return;
 
-        let alpha = 1.0;
-        if (filterMode === 'instagram') alpha = d.isInstagram ? 1.0 : 0.2;
-        else if (filterMode === 'archives') alpha = d.isInstagram ? 0.2 : 1.0;
+        const alpha = (typeof getFilterAlphaForImage === 'function')
+            ? getFilterAlphaForImage(d)
+            : 1.0;
+        if (alpha <= 0.001) return;
         context.save();
-        context.globalAlpha = alpha;
-        context.drawImage(d.img, sx - w/2, sy - h/2, w, h);
+        if (dominantBlendValue > 0 && layoutMode === 'umap') {
+            const photoAlpha = alpha * (1 - dominantBlendValue);
+            if (photoAlpha > 0.001) {
+                context.globalAlpha = photoAlpha;
+                context.drawImage(d.img, sx - w/2, sy - h/2, w, h);
+            }
+
+            const colorAlpha = alpha * dominantBlendValue;
+            context.globalAlpha = colorAlpha;
+            context.fillStyle = d.dominantColor || '#808080';
+            context.fillRect(sx - w/2, sy - h/2, w, h);
+        } else {
+            context.globalAlpha = alpha;
+            context.drawImage(d.img, sx - w/2, sy - h/2, w, h);
+        }
         context.restore();
     });
 
-    const groupsToDraw = (layoutMode === 'archivio') ? archiveGroups : categoryGroups;
+    if (dominantBlendAnimating) {
+        requestAnimationFrame(draw);
+    }
+
+    let groupsToDraw = [];
+    if (layoutMode === 'archivio') groupsToDraw = archiveGroups;
+    else if (layoutMode === 'category') groupsToDraw = categoryGroups;
+    else if (layoutMode === 'year') groupsToDraw = yearGroups;
     if (groupsToDraw && groupsToDraw.length) {
         context.save();
         context.textAlign = 'center';

@@ -2,12 +2,14 @@ function animateToLayout(targetMode, duration = 600) {
     if (targetMode === layoutMode) return;
     if (targetMode === 'category') computeCategoryPositions();
     if (targetMode === 'archivio') computeArchivePositions();
+    if (targetMode === 'year') computeYearPositions();
 
     const t0 = performance.now();
     const startPositions = images.map(d => ({ x: d.x, y: d.y }));
     const endPositions = images.map(d => {
         if (targetMode === 'category') return { x: d.catX, y: d.catY };
         if (targetMode === 'archivio') return { x: d.archX, y: d.archY };
+        if (targetMode === 'year') return { x: d.yearX, y: d.yearY };
         return { x: d.umapX, y: d.umapY };
     });
 

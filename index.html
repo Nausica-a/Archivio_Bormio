@@ -10,6 +10,8 @@
 
 <canvas id="canvas"></canvas>
 
+<button id="backFromContemporaryBtn" class="back-contemporary-btn hidden">Indietro</button>
+
 <!-- Modal viewer -->
 <div id="modal" role="dialog" aria-hidden="true">
     <button class="close-btn" id="modal-close">×</button>
@@ -29,14 +31,18 @@
 <div id="controls">
     <div style="margin-top:6px; display:flex; gap:6px; align-items:center;">
         <button id="resetBtn">Somiglianza</button>
+        <button id="dominantColorsBtn">Colori predominanti</button>
         <button id="categoryBtn">Tematiche</button>
         <button id="archiveBtn">Archivio</button>
+        <button id="yearBtn">Anno</button>
     </div>
     <div id="filters">
         <label style="font-size:13px; color:#fff; opacity:0.95; margin-right:6px;">Filtri:</label>
         <div style="display:flex; align-items:center; gap:8px;">
             <button id="filterInsta" class="filter-btn">Instagram</button>
             <button id="filterArch" class="filter-btn">Archivi storici</button>
+            <button id="contemporaryBtn" class="filter-btn contemporary-btn">Sguardo contemporaneo</button>
+            <button id="historicalBtn" class="filter-btn contemporary-btn">Sguardo storico</button>
             <button id="clearFilter" class="filter-clear hidden" aria-label="Clear filter">×</button>
         </div>
     </div>
@@ -44,15 +50,16 @@
 
 
     <!-- External JS files -->
-    <script src="cubicBezier.js"></script>
-    <script src="openModal.js"></script>
-    <script src="closeModal.js"></script>
-    <script src="getLabel.js"></script>
-    <script src="getArchiveLabel.js"></script>
-    <script src="computeCategoryPositions.js"></script>
-    <script src="computeArchivePositions.js"></script>
-    <script src="animateToLayout.js"></script>
-    <script src="draw.js"></script>
-    <script src="main.js"></script>
+    <script src="cubicBezier.js?v=20260222"></script>
+    <script src="openModal.js?v=20260222"></script>
+    <script src="closeModal.js?v=20260222"></script>
+    <script src="getLabel.js?v=20260222"></script>
+    <script src="getArchiveLabel.js?v=20260222"></script>
+    <script src="computeCategoryPositions.js?v=20260222"></script>
+    <script src="computeArchivePositions.js?v=20260222"></script>
+    <script src="computeYearPositions.js?v=20260222"></script>
+    <script src="animateToLayout.js?v=20260222"></script>
+    <script src="draw.js?v=20260222"></script>
+    <script src="main.js?v=20260222"></script>
 </body>
 </html>
